@@ -1,6 +1,7 @@
 package br.com.gx2.comercial.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -35,6 +36,11 @@ public class ClienteServiceImpl implements ClienteService{
 		Example example = Example.of(clienteFiltro, ExampleMatcher.matching());
 		
 		return repository.findAll(example);
+	}
+
+	@Override
+	public Optional<Cliente> obterPorId(Long id) {
+		return repository.findById(id);
 	}
 	
 	

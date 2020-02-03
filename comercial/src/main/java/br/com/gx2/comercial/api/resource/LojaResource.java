@@ -3,7 +3,6 @@ package br.com.gx2.comercial.api.resource;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,31 +21,35 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/lojas")
 @RequiredArgsConstructor
 public class LojaResource {
-	
+
 	@Autowired
 	private final LojaService service;
 	
 	@PostMapping("/salvar")
 	public ResponseEntity salvar(@RequestBody LojaDTO dto) {
-		Loja loja = Loja.builder().nome(dto.getNome()).build();
+		System.out.println(dto.toString());
+		Loja loja = Loja.builder()
+				.nomeLoja(dto.getNome())
+				.build();
 		try {
-			Loja lojaSalva = service.salvar(loja);
-			System.out.println(lojaSalva.toString());
-			return new ResponseEntity(lojaSalva,HttpStatus.CREATED);
+			Loja lojaSalvo = service.salvar(loja);
+			return ResponseEntity.ok(lojaSalvo);
 		} catch (RegraNegocioException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
 	@GetMapping
-	public ResponseEntity buscarLojas(@RequestParam (value = "loja", required = false) String loja) {
+	public ResponseEntity buscarLojas(@RequestParam(value="loja", required = false) String NomeLoja) {
 		Loja lojaFiltro = new Loja();
-		lojaFiltro.setNome(loja);
+		
+		lojaFiltro.setNomeLoja(NomeLoja);
 		
 		List<Loja> lojas = service.buscarLojas(lojaFiltro);
 		
 		return ResponseEntity.ok(lojas);
-		
 	}
 	
 }
+
+

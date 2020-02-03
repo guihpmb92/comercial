@@ -1,5 +1,7 @@
 package br.com.gx2.comercial.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cliente {
+public class Cliente implements Serializable{
+	
+	private static final long SerialVersionUID = 1L;
 	
 	@Id
 	@Column(name="CODIGO_CLIENTE")

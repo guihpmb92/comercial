@@ -1,7 +1,5 @@
 package br.com.gx2.comercial.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,23 +13,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Table(name="GRUPOS")
 @Builder
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Table(name="LOJAS")
-public class Loja implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@AllArgsConstructor
+public class Grupo {
 
 	@Id
-	@Column(name="CODIGO_LOJA")
+	@Column(name="CODIGO_GRUPO")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idLoja;
+	private Long idGrupo;
 	
-	@Column(name="NOME_LOJA")
-	private String nomeLoja;
+	@Column(name="DESCRICAO_GRUPO")
+	private String descricaoGrupo;
 }

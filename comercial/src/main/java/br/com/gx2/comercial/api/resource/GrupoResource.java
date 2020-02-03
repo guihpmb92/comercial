@@ -11,43 +11,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gx2.comercial.api.DTO.ClienteDTO;
-import br.com.gx2.comercial.entity.Cliente;
+import br.com.gx2.comercial.entity.Grupo;
 import br.com.gx2.comercial.exception.RegraNegocioException;
-import br.com.gx2.comercial.service.ClienteService;
+import br.com.gx2.comercial.service.GrupoService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/grupos")
 @RequiredArgsConstructor
-public class ClienteResource {
+public class GrupoResource {
 
 	@Autowired
-	private final ClienteService service;
+	private final GrupoService service;
 	
 	@PostMapping("/salvar")
-	public ResponseEntity salvar(@RequestBody ClienteDTO dto) {
-		Cliente cliente = Cliente.builder()
-				.nome(dto.getNome())
-				.cpf(dto.getCpf())
+	public ResponseEntity salvar(@RequestBody Grupo dto) {
+		Grupo grupo = Grupo.builder()
+				.descricaoGrupo(dto.getDescricaoGrupo())
 				.build();
 		try {
-			Cliente clienteSalvo = service.salvar(cliente);
-			return ResponseEntity.ok(clienteSalvo);
+			Grupo grupoSalvo = service.salvarGrupo(grupo);
+			return ResponseEntity.ok(grupoSalvo);
 		} catch (RegraNegocioException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+	
 	@GetMapping
-	public ResponseEntity buscar(@RequestParam (value = "cpf", required = false) String cpf) {
-		Cliente clienteFiltro = new Cliente();
+	public ResponseEntity buscarGrupos(@RequestParam(value="descricao",required = false) String descricao) {
+		Grupo grupoFiltro = new Grupo();
 		
-		clienteFiltro.setCpf(cpf);
+		grupoFiltro.setDescricaoGrupo(descricao);
 		
-		List<Cliente> clientes = service.buscarCliente(clienteFiltro);
+		List<Grupo> grupos = service.buscarGrupo(grupoFiltro);
 		
-		return ResponseEntity.ok(clientes);
+		return ResponseEntity.ok(grupos);
 	}
-		
 }

@@ -1,6 +1,7 @@
 package br.com.gx2.comercial.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -14,5 +15,7 @@ public interface ClienteService {
 	public void validaCPF(String cpf);
 	
 	List<Cliente> buscarCliente(Cliente clienteFiltro);
+	
+	Optional<Cliente> obterPorId(Long id);
 	
 }

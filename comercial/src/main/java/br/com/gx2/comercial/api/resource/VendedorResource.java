@@ -11,43 +11,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gx2.comercial.api.DTO.ClienteDTO;
-import br.com.gx2.comercial.entity.Cliente;
+import br.com.gx2.comercial.api.DTO.VendedorDTO;
+import br.com.gx2.comercial.entity.Vendedor;
 import br.com.gx2.comercial.exception.RegraNegocioException;
-import br.com.gx2.comercial.service.ClienteService;
+import br.com.gx2.comercial.service.VendedorService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/vendedores")
 @RequiredArgsConstructor
-public class ClienteResource {
+public class VendedorResource {
 
 	@Autowired
-	private final ClienteService service;
+	private final VendedorService service;
 	
 	@PostMapping("/salvar")
-	public ResponseEntity salvar(@RequestBody ClienteDTO dto) {
-		Cliente cliente = Cliente.builder()
+	public ResponseEntity salvar(@RequestBody VendedorDTO dto) {
+		Vendedor vendedor = Vendedor.builder()
 				.nome(dto.getNome())
-				.cpf(dto.getCpf())
+				.matricula(dto.getMatricula())
 				.build();
 		try {
-			Cliente clienteSalvo = service.salvar(cliente);
-			return ResponseEntity.ok(clienteSalvo);
+			Vendedor vendedorSalvo = service.salvarVendedor(vendedor);
+			return ResponseEntity.ok(vendedorSalvo);
 		} catch (RegraNegocioException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+	
 	@GetMapping
-	public ResponseEntity buscar(@RequestParam (value = "cpf", required = false) String cpf) {
-		Cliente clienteFiltro = new Cliente();
+	public ResponseEntity buscarVendedor(@RequestParam(value="matricula", required = false) String matricula) {
+		Vendedor vendedorFiltro = new Vendedor();
 		
-		clienteFiltro.setCpf(cpf);
+		vendedorFiltro.setMatricula(matricula);
 		
-		List<Cliente> clientes = service.buscarCliente(clienteFiltro);
+		List<Vendedor> vendedores = service.buscarVendedor(vendedorFiltro);
 		
-		return ResponseEntity.ok(clientes);
+		return ResponseEntity.ok(vendedores);
 	}
-		
+	
 }
